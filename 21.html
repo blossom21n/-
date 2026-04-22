@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Әзірлеушіге арналған ЖИ-құралдары</title>
+    <style>
+        :root {
+            --bg-color: linear-gradient(135deg, #ffe6f0 0%, #ffd1e8 100%);
+            --text-color: #4a154b;
+            --card-bg: rgba(255, 240, 245, 0.95);
+            --accent: #ff69b4;
+            --accent-hover: #ff1493;
+            --accent-light: #ffb6d9;
+            --header-bg: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+            --shadow-color: rgba(255, 105, 180, 0.3);
+        }
+        .dark {
+            --bg-color: linear-gradient(135deg, #2d1b2e 0%, #1a0f1c 100%);
+            --text-color: #ffd1e8;
+            --card-bg: rgba(45, 27, 46, 0.95);
+            --accent: #ff85c1;
+            --accent-hover: #ff69b4;
+            --accent-light: #ffb6d9;
+            --header-bg: linear-gradient(135deg, #ff1493 0%, #c71585 100%);
+            --shadow-color: rgba(255, 133, 193, 0.3);
+        }
+        
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        body::before {
+            content: '🌸';
+            position: fixed;
+            font-size: 200px;
+            opacity: 0.05;
+            bottom: -50px;
+            right: -50px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        body::after {
+            content: '✨';
+            position: fixed;
+            font-size: 150px;
+            opacity: 0.05;
+            top: -30px;
+            left: -30px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            background: var(--header-bg);
+            padding: 25px 35px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px var(--shadow-color);
+            animation: slideDown 0.6s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h1 { 
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #fff, #ffe6f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        
+        h2 { 
+            margin: 40px 0 20px; 
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h2::after {
+            content: '💖';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            border-radius: 2px;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: translateY(50px);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '🌸';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 80px;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px var(--shadow-color);
+            border-color: var(--accent);
+        }
+        
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .card-link {
+            display: inline-block;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .card-link:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        
+        .chat-window {
+            height: 420px;
+            overflow-y: auto;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 105, 180, 0.3);
+        }
+        
+        .chat-window::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .chat-window::-webkit-scrollbar-track {
+            background: rgba(255, 105, 180, 0.1);
+            border-radius: 10px;
+        }
+        
+        .chat-window::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+        
+        .message {
+            max-width: 75%;
+            padding: 12px 20px;
+            border-radius: 25px;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease-out;
+            word-wrap: break-word;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .message.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message.ai {
+            align-self: flex-start;
+            background: rgba(255, 105, 180, 0.15);
+            backdrop-filter: blur(5px);
+            border-bottom-left-radius: 5px;
+            border: 1px solid rgba(255, 105, 180, 0.3);
+        }
+        
+        #chat-form {
+            display: flex;
+            gap: 15px;
+        }
+        
+        #user-input {
+            flex: 1;
+            padding: 15px 25px;
+            border: 2px solid var(--accent);
+            border-radius: 50px;
+            font-size: 1rem;
+            background: var(--card-bg);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        #user-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.3);
+            transform: scale(1.02);
+        }
+        
+        button {
+            padding: 15px 35px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow-color);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .counter {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+        
+        #experience {
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 30px;
+            margin: 40px 0;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px var(--shadow-color);
+            border: 2px solid rgba(255, 105, 180, 0.3);
+        }
+        
+        #experience p {
+            margin-bottom: 15px;
+        }
+        
+        #experience h3 {
+            margin: 20px 0 10px;
+            color: var(--accent);
+        }
+        
+        #dark-mode-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 12px 25px;
+        }
+        
+        .loading {
+            display: inline-block;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background: rgba(255, 105, 180, 0.2);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .cards-container { 
+                grid-template-columns: 1fr; 
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+                border-radius: 30px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .message {
+                max-width: 85%;
+            }
+            
+            button {
+                padding: 12px 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            #chat-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎀 Әзірлеушіге арналған ЖИ-құралдары 💕</h1>
+        <button id="dark-mode-btn">🌙 Қараңғы тақырып</button>
+    </header>
+
+    <main>
+        <section id="tools">
+            <h2>🤖 Жасанды интеллект түрлері</h2>
+            <div class="cards-container">
+                <!-- Chat/Көмекші ЖИ -->
+                <div class="card">
+                    <h3>💬 Chat/Көмекші ЖИ</h3>
+                    <p><strong>DeepSeek, Grok, ChatGPT, Claude, Gemini</strong><br>
+                    Мәтін генерациялау, сұрақтарға жауап беру, код жазу, кеңес беру. Ең танымал ЖИ түрі.</p>
+                    <a href="https://chat.deepseek.com" target="_blank" class="card-link">DeepSeek →</a>
+                    <div class="category-badge">📝 Мәтінмен жұмыс</div>
+                </div>
+
+                <!-- Код жазуға арналған ЖИ -->
+                <div class="card">
+                    <h3>💻 Код жазуға арналған ЖИ</h3>
+                    <p><strong>GitHub Copilot, Codeium, Cursor, Amazon CodeWhisperer</strong><br>
+                    Кодты автоматты түрде жазып, қателерді түзетеді, тесттер жасайды. Әзірлеушінің ең жақсы көмекшісі.</p>
+                    <a href="https://github.com/features/copilot" target="_blank" class="card-link">GitHub Copilot →</a>
+                    <div class="category-badge">⚡ Программалау</div>
+                </div>
+
+                <!-- Сурет/Дизайн ЖИ -->
+                <div class="card">
+                    <h3>🎨 Сурет/Дизайн ЖИ</h3>
+                    <p><strong>Midjourney, DALL-E 3, Stable Diffusion, Leonardo.ai</strong><br>
+                    Мәтін бойынша сурет, логотип, иллюстрация, дизайн жасайды. Креативті жобаларға өте қолайлы.</p>
+                    <a href="https://www.midjourney.com" target="_blank" class="card-link">Midjourney →</a>
+                    <div class="category-badge">🖼️ Кескін генерация</div>
+                </div>
+
+                <!-- Презентация/Құжат ЖИ -->
+                <div class="card">
+                    <h3>📊 Презентация/Құжат ЖИ</h3>
+                    <p><strong>Gamma, Tome, Beautiful.ai, Pitch</strong><br>
+                    Бірнеше секундта кәсіби презентация, құжат, веб-сайт жасайды. Бизнес және оқу үшін тамаша.</p>
+                    <a href="https://gamma.app" target="_blank" class="card-link">Gamma →</a>
+                    <div class="category-badge">📽️ Презентация</div>
+                </div>
+
+                <!-- Видео/Аудио ЖИ -->
+                <div class="card">
+                    <h3>🎬 Видео/Аудио ЖИ</h3>
+                    <p><strong>Synthesia, Runway, HeyGen, ElevenLabs</strong><br>
+                    Видео жасау, дауыс синтезі, музыка генерациялау, аудио өңдеу. Мультимедиа мамандарына арналған.</p>
+                    <a href="https://www.synthesia.io" target="_blank" class="card-link">Synthesia →</a>
+                    <div class="category-badge">🎥 Мультимедиа</div>
+                </div>
+
+                <!-- Деректер/Аналитика ЖИ -->
+                <div class="card">
+                    <h3>📈 Деректер/Аналитика ЖИ</h3>
+                    <p><strong>Tableau AI, DataRobot, Polymer, Akkio</strong><br>
+                    Деректерді талдау, болжам жасау, дашбордтар құру. Бизнес аналитика үшін қуатты құрал.</p>
+                    <a href="https://www.datarobot.com" target="_blank" class="card-link">DataRobot →</a>
+                    <div class="category-badge">📊 Аналитика</div>
+                </div>
+
+                <!-- Аударма/Тілдік ЖИ -->
+                <div class="card">
+                    <h3>🌍 Аударма/Тілдік ЖИ</h3>
+                    <p><strong>Google Translate AI, DeepL, Lingvanex</strong><br>
+                    100+ тілде дәл аударма, сөйлеуді тану, мәтінді оқу. Шет тілдерімен жұмыс істейтіндерге арналған.</p>
+                    <a href="https://www.deepl.com" target="_blank" class="card-link">DeepL →</a>
+                    <div class="category-badge">🔤 Аударма</div>
+                </div>
+
+                <!-- Ассистент/Автоматтандыру ЖИ -->
+                <div class="card">
+                    <h3>🤖 Ассистент/Автоматтандыру ЖИ</h3>
+                    <p><strong>Zapier AI, Make.com AI, IFTTT AI</strong><br>
+                    Жұмысты автоматтандырады, күнделікті тапсырмаларды жеңілдетеді, уақытты үнемдейді.</p>
+                    <a href="https://zapier.com" target="_blank" class="card-link">Zapier →</a>
+                    <div class="category-badge">⚙️ Автоматтандыру</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2>📝 Менің тәжірибем 💭</h2>
+            <p>Мен Gamma, DeepSeek және Grok құралдарын қолдандым. Gamma презентация жасауға, DeepSeek код және мәтін жазуға, Grok қызықты әрі шынайы жауаптарға өте қолайлы болды. Қазір GitHub Copilot-ты да сынап жатырмын - код жазу өте жылдамдады!</p>
+            <h3>🤔 Рефлексия</h3>
+            <p><strong>❓ Қандай құрал ең көп көмектесті?</strong> DeepSeek және GitHub Copilot<br>
+               <strong>⚠️ ЖИ нені дұрыс немесе ыңғайсыз жасады?</strong> Кейде қате параметрлер берді, мен DevTools-та тексеріп түзеттім. Бірақ жалпы алғанда өте пайдалы.<br>
+               <strong>🔮 ЖИ 5 жылдан кейін әзірлеуші мамандығын қалай өзгертеді?</strong> Рутиналық код жазуды, тестілеуді және құжаттаманы толығымен өз қолына алады. Әзірлеушілер архитектураға, инновацияға және креативті тапсырмаларға көбірек көңіл бөледі.</p>
+        </section>
+
+        <section id="chat">
+            <h2>💬 ЖИ-чат (Groq — тегін)</h2>
+            <div id="chat-window" class="chat-window"></div>
+            <form id="chat-form">
+                <input type="text" id="user-input" placeholder="Сұрағыңызды жазыңыз..." required>
+                <button type="submit">📤 Жіберу</button>
+            </form>
+            <p class="counter">📊 Сұраныстар саны: <span id="request-counter">0</span></p>
+        </section>
+    </main>
+
+    <script>
+        const GROQ_API_KEY = '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';
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark');
+            const btn = document.getElementById('dark-mode-btn');
+            btn.textContent = document.body.classList.contains('dark') ? '☀️ Ашық тақырып' : '🌙 Қараңғы тақырып';
+        }
+
+        function setupScrollAnimations() {
+            const cards = document.querySelectorAll('.card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.2 });
+            cards.forEach(card => observer.observe(card));
+        }
+
+        async function sendToAI(message) {
+            const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${GROQ_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: "llama-3.1-8b-instant",
+                    messages: [
+                        { 
+                            role: "system", 
+                            content: "You are a helpful AI assistant. Detect the language of the user's message and ALWAYS respond in exactly the same language as the user wrote. If the user writes in Kazakh, reply in Kazakh. If in Russian, reply in Russian. If in English, reply in English. Never mix languages." 
+                        },
+                        { role: "user", content: message }
+                    ],
+                    temperature: 0.7,
+                    max_tokens: 1024
+                })
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error("Groq API Error:", response.status, errorText);
+                throw new Error(`API қатесі (${response.status})`);
+            }
+
+            const data = await response.json();
+            return data.choices[0].message.content;
+        }
+
+        function addMessage(type, text, isLoading = false) {
+            const chatWindow = document.getElementById('chat-window');
+            const msg = document.createElement('div');
+            msg.className = `message ${type}`;
+
+            if (isLoading) {
+                msg.innerHTML = `<span class="loading">💖 ЖИ ойлануда...</span>`;
+            } else {
+                msg.textContent = text;
+            }
+            chatWindow.appendChild(msg);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+            return msg;
+        }
+
+        let requestCount = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('dark-mode-btn').addEventListener('click', toggleDarkMode);
+            setupScrollAnimations();
+
+            const form = document.getElementById('chat-form');
+            const input = document.getElementById('user-input');
+            const counterEl = document.getElementById('request-counter');
+            const chatWindow = document.getElementById('chat-window');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const userText = input.value.trim();
+                if (!userText) return;
+
+                addMessage('user', userText);
+                input.value = '';
+
+                requestCount++;
+                counterEl.textContent = requestCount;
+
+                const loadingMsg = addMessage('ai', '', true);
+
+                try {
+                    const aiAnswer = await sendToAI(userText);
+                    loadingMsg.remove();
+                    addMessage('ai', aiAnswer);
+                } catch (err) {
+                    loadingMsg.remove();
+                    addMessage('ai', '❌ Қате: ' + err.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
